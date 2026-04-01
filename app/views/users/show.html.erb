@@ -1,0 +1,26 @@
+<div class="card" style="max-width: 600px; margin: 2rem auto;">
+  <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+    <h1>Perfil de Usuario</h1>
+    <span class="badge badge-<%= @user.role %>"><%= @user.role.titleize %></span>
+  </div>
+
+  <div class="form-group">
+    <label>Correo Electrónico</label>
+    <p style="font-size: 1.1rem; font-weight: 500;"><%= @user.email_address %></p>
+  </div>
+
+  <div class="form-group">
+    <label>ID de Usuario</label>
+    <p style="color: var(--text-muted);">#<%= @user.id %></p>
+  </div>
+
+  <div style="margin-top: 2.5rem; display: flex; gap: 1rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+    <%= link_to 'Editar Mi Perfil', edit_user_path(@user), class: "button-primary" %>
+    
+    <% if Current.user.admin? %>
+      <%= link_to 'Volver al Listado', users_path, class: "button-secondary" %>
+    <% else %>
+      <%= link_to 'Página de Inicio', root_path, class: "button-secondary" %>
+    <% end %>
+  </div>
+</div>

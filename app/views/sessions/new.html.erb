@@ -1,0 +1,24 @@
+<div class="card" style="max-width: 450px; margin: 4rem auto; text-align: center;">
+  <h1>Iniciar Sesión</h1>
+
+  <%= form_with url: session_path do |f| %>
+    <div class="form-group" style="text-align: left;">
+      <%= f.label :email_address, "Correo Electrónico" %>
+      <%= f.email_field :email_address, required: true, autofocus: true, autocomplete: "email", placeholder: "tu@ejemplo.com", value: params[:email_address] %>
+    </div>
+
+    <div class="form-group" style="text-align: left;">
+      <%= f.label :password, "Contraseña" %>
+      <%= f.password_field :password, required: true, autocomplete: "current-password", placeholder: "Ingresa tu contraseña", maxlength: 72 %>
+    </div>
+
+    <div class="actions" style="margin-top: 2rem;">
+      <%= f.submit "Entrar", class: "button-primary", style: "width: 100%;" %>
+    </div>
+  <% end %>
+
+  <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 0.875rem;">
+    <%= link_to "¿No tienes cuenta? Registrate", new_registrations_path, style: "color: var(--primary); text-decoration: none; font-weight: 500;" %>
+    <%= link_to "¿Olvidaste tu contraseña?", new_password_path, style: "color: var(--text-muted); text-decoration: none;" %>
+  </div>
+</div>

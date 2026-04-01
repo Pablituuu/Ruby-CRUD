@@ -1,0 +1,33 @@
+<div class="card" style="text-align: center; padding: 4rem 2rem;">
+  <h1>Bienvenido a la Plataforma</h1>
+  <p style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem;">
+    Este es un sistema profesional de gestión de usuarios desarrollado con <strong>Ruby on Rails 8</strong>.
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 3rem 0; text-align: left;">
+    <div class="card" style="margin-bottom: 0;">
+      <h3>📦 CRUD Completo</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">Crea, Lee, Actualiza y Borra usuarios con facilidad desde una interfaz intuitiva.</p>
+    </div>
+    <div class="card" style="margin-bottom: 0;">
+      <h3>🛡️ Roles & Seguridad</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">Gestión de Administradores y Usuarios regulares con permisos específicos.</p>
+    </div>
+    <div class="card" style="margin-bottom: 0;">
+      <h3>🚀 Rails 8 & MVC</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">Estructura limpia siguiendo las convenciones más modernas de la industria.</p>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+    <% if authenticated? %>
+      <%= link_to "Ir a Mi Perfil", user_path(Current.user), class: "button-primary" %>
+      <% if Current.user.admin? %>
+        <%= link_to "Registrar Nuevo Usuario", new_registrations_path, class: "button-secondary" %>
+        <%= link_to "Panel de Admin", users_path, class: "button-secondary" %>
+      <% end %>
+    <% else %>
+      <%= link_to "Entrar a la Plataforma", new_session_path, class: "button-primary" %>
+    <% end %>
+  </div>
+</div>

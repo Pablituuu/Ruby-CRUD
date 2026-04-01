@@ -1,0 +1,59 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div>
+    <h1>Gestión de Usuarios</h1>
+    <p style="color: var(--text-dim); font-size: 0.9rem;">Administra roles y accesos de la plataforma.</p>
+  </div>
+  
+  <div style="display: flex; gap: 1rem; align-items: center;">
+    <button onclick="document.getElementById('reg-modal').showModal()" class="button-primary">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+      Registrar Usuario
+    </button>
+    <span class="badge badge-admin">🔑 Admin Only</span>
+  </div>
+</div>
+
+<!-- Modal de Registro -->
+<dialog id="reg-modal">
+  <div class="modal-header">
+    <h2 style="font-size: 1.25rem;">🆕 Registrar Nuevo Usuario</h2>
+    <button onclick="this.closest('dialog').close()" class="button-danger" style="padding: 0.25rem; height: 32px; width: 32px; border-radius: 50%;">✕</button>
+  </div>
+  <div class="modal-body">
+    <%= turbo_frame_tag "new_user_frame" do %>
+      <%= render "registrations/form", user: @user %>
+    <% end %>
+  </div>
+</dialog>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Correo Electrónico</th>
+        <th>Rol</th>
+        <th style="text-align: right;">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td>#<%= user.id %></td>
+          <td><strong><%= user.email_address %></strong></td>
+          <td>
+            <span class="badge badge-<%= user.role %>">
+              <%= user.role.titleize %>
+            </span>
+          </td>
+          <td class="actions-group">
+            <%= link_to 'Ver', user, class: "button-secondary" %>
+            <%= link_to 'Editar', edit_user_path(user), class: "button-secondary" %>
+            <%= button_to 'Eliminar', user, method: :delete, data: { turbo_confirm: '¿Estás seguro?' }, class: "button-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

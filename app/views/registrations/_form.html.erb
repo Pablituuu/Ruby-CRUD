@@ -1,0 +1,37 @@
+<%= form_with model: user, url: registrations_path do |f| %>
+  <% if user.errors.any? %>
+    <div class="alert alert-error" style="margin-bottom: 2rem;">
+      <ul style="font-size: 0.85rem; padding-left: 1.5rem;">
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :email_address, "📧 Correo Electrónico" %>
+    <%= f.email_field :email_address, autofocus: true, placeholder: "ejemplo@correo.com" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, "🔑 Contraseña" %>
+    <%= f.password_field :password, placeholder: "Mínimo 6 caracteres" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password_confirmation, "🔁 Confirmar Contraseña" %>
+    <%= f.password_field :password_confirmation, placeholder: "Repite la contraseña" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :role, "🛡️ Rol" %>
+    <%= f.select :role, User.roles.keys.map { |r| [r.titlecase, r] } %>
+  </div>
+
+  <div class="actions" style="margin-top: 2rem;">
+    <button type="submit" class="button-primary" style="width: 100%;">
+      Confirmar y Registrar Usuario
+    </button>
+  </div>
+<% end %>

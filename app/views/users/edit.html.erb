@@ -1,0 +1,38 @@
+<div class="card" style="max-width: 600px; margin: 2rem auto;">
+  <h1>Editar Perfil</h1>
+
+  <%= form_with model: @user do |f| %>
+    <% if @user.errors.any? %>
+      <div class="alert alert-error">
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :email_address, "Correo Electrónico" %>
+      <%= f.email_field :email_address, placeholder: "tu@ejemplo.com" %>
+    </div>
+
+    <% if Current.user.admin? %>
+      <div class="form-group">
+        <%= f.label :role, "Cambiar Rol de Usuario" %>
+        <%= f.select :role, User.roles.keys.map { |r| [r.titleize, r] } %>
+      </div>
+    <% end %>
+
+    <div class="actions" style="margin-top: 2rem; display: flex; gap: 1rem;">
+      <%= f.submit 'Actualizar Perfil', class: "button-primary" %>
+      <%= link_to 'Cancelar', user_path(@user), class: "button-secondary" %>
+    </div>
+  <% end %>
+
+  <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+    <% if Current.user.admin? %>
+      <%= link_to '← Volver al Listado de Usuarios', users_path, style: "color: var(--text-muted); text-decoration: none; font-size: 0.875rem;" %>
+    <% end %>
+  </div>
+</div>

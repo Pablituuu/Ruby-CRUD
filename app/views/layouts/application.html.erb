@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Mi App" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Mi App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  </head>
+
+  <body>
+    <header class="main-header">
+      <nav class="main-nav">
+        <%= link_to "RubyApp 💎", root_path, class: "logo" %>
+        <div class="nav-links">
+          <%= link_to "Home", root_path, class: "nav-link" %>
+          <% if authenticated? %>
+            <% if Current.user.admin? %>
+              <%= link_to "👥 Usuarios", users_path, class: "nav-link" %>
+            <% end %>
+            <%= link_to "👤 Mi Perfil", user_path(Current.user), class: "nav-link" %>
+            <%= button_to "Cerrar Sesión", session_path, method: :delete, class: "button-danger" %>
+          <% else %>
+            <% unless current_page?(new_session_path) %>
+              <%= link_to "Entrar", new_session_path, class: "button-secondary" %>
+            <% end %>
+          <% end %>
+        </div>
+      </nav>
+    </header>
+
+    <div id="toast-container">
+      <% if notice %>
+        <div class="toast toast-notice">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <%= notice %>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="toast toast-alert">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          <%= alert %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const toasts = document.querySelectorAll('.toast');
+        toasts.forEach(toast => {
+          setTimeout(() => {
+            toast.classList.add('toast-fade-out');
+            setTimeout(() => toast.remove(), 500);
+          }, 4000);
+        });
+      });
+    </script>
+  </body>
+</html>
